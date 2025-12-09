@@ -397,8 +397,36 @@
         opacity: 0;
       }
     }
+
+    /* Footer */
+    .footer {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(55, 65, 81, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 1.2rem;
+      color: #6b7280;
+    }
+
+    .footer-left strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .footer-right img {
+      display: block;
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      background: #020617;
+    }
   </style>
 </head>
+<link rel="icon" href="funny-icon.png" />
 <body>
   <div class="lights-overlay"></div>
   <div class="confetti-container" id="confetti"></div>
@@ -417,7 +445,7 @@
         <div class="winner-label">Current winner</div>
         <div id="winnerName" class="winner-name no-winner">— none drawn yet —</div>
         <div class="draw-controls">
-          <button id="drawBtn" disabled>🎁 Draw winner</button>
+          <button id="drawBtn" disabled>🎁 Draw Winner</button>
         </div>
         <div id="winnerMessage" class="message"></div>
       </div>
@@ -472,6 +500,14 @@
         </div>
       </div>
     </div>
+    <footer class="footer">
+      <div class="footer-left">
+        Made by <strong>ME!</strong> Feature requests? Scan the code. <strong>→</strong>
+      </div>
+      <div class="footer-right">
+        <img src="qr-feature-requests.png" alt="QR code for feature requests" />
+      </div>
+    </footer>
   </main>
 
   <script>
