@@ -17,13 +17,74 @@
 
     body {
       margin: 0;
-      height: 100vh; /* lock to viewport height */
+      height: 100vh; /* lock to viewport height (desktop default) */
       display: flex;
       align-items: stretch;
       justify-content: center;
       padding: 16px;
       position: relative;
-      overflow: hidden; /* no page scroll */
+      overflow: hidden; /* no page scroll on desktop */
+    }
+
+    /* Mobile layout overrides, applied when body.mobile is set via JS */
+    body.mobile {
+      height: auto;               /* allow page to grow vertically */
+      min-height: 100vh;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 8px;
+      overflow-x: hidden;
+      overflow-y: auto;           /* vertical scroll on mobile */
+    }
+
+    body.mobile .app {
+      width: 100%;
+      max-width: 100%;
+      height: auto;               /* no fixed viewport height on mobile */
+      min-height: 0;
+      padding: 12px;
+      gap: 12px;
+    }
+
+    body.mobile .top-row {
+      gap: 12px;
+    }
+
+    body.mobile .lists-row {
+      grid-template-columns: 1fr; /* stack lists on small screens */
+    }
+
+    body.mobile h1 {
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+    }
+
+    body.mobile .subtitle {
+      font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    }
+
+    body.mobile .winner-label {
+      font-size: 1.1rem;
+    }
+
+    body.mobile .winner-name,
+    body.mobile .no-winner {
+      font-size: clamp(1.6rem, 6vw, 2.4rem);
+    }
+
+    body.mobile textarea,
+    body.mobile ul {
+      font-size: 1.2rem;
+    }
+
+    body.mobile button {
+      font-size: 1rem;
+      padding: 6px 12px;
+    }
+
+    body.mobile .footer {
+      font-size: 0.85rem;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .app {
@@ -398,6 +459,35 @@
       }
     }
 
+    /* Mobile layout tweaks */
+    @media (max-width: 768px) {
+      body {
+        height: auto;               /* let page grow taller than viewport */
+        min-height: 100vh;          /* still at least full height */
+        align-items: flex-start;    /* app starts at top on phones */
+        padding: 8px;
+        overflow-x: hidden;
+        overflow-y: auto;           /* enable vertical scrolling on mobile */
+      }
+
+      .app {
+        width: 100%;
+        max-width: 100%;
+        height: auto;               /* no fixed viewport height on mobile */
+        min-height: 0;
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .top-row {
+        gap: 12px;
+      }
+
+      .lists-row {
+        grid-template-columns: 1fr; /* already stacks, just make explicit */
+      }
+    }
+
     /* Footer */
     .footer {
       margin-top: 8px;
@@ -511,6 +601,20 @@
   </main>
 
   <script>
+    function applyLayoutMode() {
+      const isMobileUserAgent = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isNarrow = window.innerWidth < 768;
+      const isMobile = isMobileUserAgent || isNarrow;
+
+      document.body.classList.toggle('mobile', isMobile);
+      document.body.classList.toggle('desktop', !isMobile);
+    }
+
+    // Apply layout mode on load and when the window is resized
+    applyLayoutMode();
+    window.addEventListener('resize', applyLayoutMode);
+
+
     const nameInput = document.getElementById("nameInput");
     const loadBtn = document.getElementById("loadBtn");
     const resetBtn = document.getElementById("resetBtn");
